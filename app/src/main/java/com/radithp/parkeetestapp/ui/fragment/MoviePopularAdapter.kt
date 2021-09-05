@@ -43,7 +43,7 @@ class MoviePopularAdapter: PagedListAdapter<MovieEntity,MoviePopularAdapter.Movi
     class MoviesPopularViewHolder(private val binding: ItemsMoviePopularBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(movie: MovieEntity){
             with(binding){
-                tvItemTitle.text = movie.title
+                //tvItemTitle.text = movie.title
                 Glide.with(itemView.context)
                     .load(movie.imagePath)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)

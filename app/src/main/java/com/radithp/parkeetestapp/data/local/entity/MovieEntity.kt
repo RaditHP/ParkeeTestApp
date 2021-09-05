@@ -10,19 +10,16 @@ data class MovieEntity (
         @PrimaryKey
         @NonNull
         @ColumnInfo(name = "movieId")
-        var movieId : String,
+        var movieId : Int,
 
         @ColumnInfo(name = "title")
         var title : String,
 
-        @ColumnInfo(name = "synopsis")
+        @ColumnInfo(name = "overview")
         var synopsis : String,
 
         @ColumnInfo(name = "releaseDate")
         var releaseDate : String,
-
-        @ColumnInfo(name = "cast")
-        var cast : String,
 
         @ColumnInfo(name = "favorite")
         var favorited: Boolean = false,

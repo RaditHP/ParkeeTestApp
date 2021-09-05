@@ -5,7 +5,6 @@ import androidx.paging.DataSource
 import com.nhaarman.mockitokotlin2.verify
 import com.radithp.jetpacksubmission3.data.source.remote.RemoteDataSource
 import com.radithp.jetpacksubmission3.utils.AppExecutors
-import com.radithp.jetpacksubmission3.utils.DataDummy
 import com.radithp.jetpacksubmission3.utils.PagedListUtils
 import com.radithp.jetpacksubmission3.vo.Resource
 import com.radithp.parkeetestapp.data.local.LocalDataSource

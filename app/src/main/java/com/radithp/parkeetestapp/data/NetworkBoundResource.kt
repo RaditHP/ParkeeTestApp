@@ -6,8 +6,13 @@ import com.radithp.jetpacksubmission3.data.source.remote.ApiResponse
 import com.radithp.jetpacksubmission3.data.source.remote.StatusResponse
 import com.radithp.jetpacksubmission3.utils.AppExecutors
 import com.radithp.jetpacksubmission3.vo.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType> {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
@@ -51,19 +56,19 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
             result.removeSource(dbSource)
             when (response.status) {
                 StatusResponse.SUCCESS ->
-                    mExecutors.diskIO().execute {
-                        saveCallResult(response.body)
-                        mExecutors.mainThread().execute {
+                    CoroutineScope(IO).launch {
+                        response.body?.let { saveCallResult(it) }
+                        withContext(Main) {
                             result.addSource(loadFromDB()) { newData ->
                                 result.value = Resource.success(newData)
                             }
                         }
                     }
-                StatusResponse.EMPTY -> mExecutors.mainThread().execute {
-                    result.addSource(loadFromDB()) { newData ->
-                        result.value = Resource.success(newData)
-                    }
-                }
+//                StatusResponse.EMPTY -> mExecutors.mainThread().execute {
+//                    result.addSource(loadFromDB()) { newData ->
+//                        result.value = Resource.success(newData)
+//                    }
+//                }
                 StatusResponse.ERROR -> {
                     onFetchFailed()
                     result.addSource(dbSource) { newData ->

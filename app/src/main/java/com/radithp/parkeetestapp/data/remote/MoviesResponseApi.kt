@@ -25,6 +25,6 @@ data class Movie(
     val posterPath: String,
 
     @field: SerializedName("id")
-    val id: String
+    val id: Int
 
 )
